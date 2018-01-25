@@ -41,7 +41,6 @@ public class FixerCurrencyService implements ValueFinder {
 	private Optional<CurrencyTable> tryToExecute(HttpClient client) {
 		try {
 			String entity = executeRequest(client);
-
 			return parseJson(entity);
 		} catch (IOException e) {
 			logger.error("ERROR occurred during working with FIXER API");

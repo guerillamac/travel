@@ -11,4 +11,10 @@ public class CurrencyValue {
 		return currencyValue;
 	}
 
+	@Override
+	public String toString() {
+		return "CurrencyValue{" +
+				"currencyValue=" + currencyValue +
+				'}';
+	}
 }
