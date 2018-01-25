@@ -34,13 +34,12 @@ public class FixerCurrencyService implements ValueFinder {
 
 	@Override
 	public Optional<CurrencyTable> findValues() {
-
-		return tryToExecute(currencyClient.getClient());
+		return tryToExecute();
 	}
 
-	private Optional<CurrencyTable> tryToExecute(HttpClient client) {
+	private Optional<CurrencyTable> tryToExecute() {
 		try {
-			String entity = executeRequest(client);
+			String entity = currencyClient.executeGet(uri);
 			return parseJson(entity);
 		} catch (IOException e) {
 			logger.error("ERROR occurred during working with FIXER API");
@@ -87,14 +86,4 @@ public class FixerCurrencyService implements ValueFinder {
 		return node.has("base") && node.has(keyForBindingCurrencyValues);
 	}
 
-	private String executeRequest(HttpClient client) throws IOException {
-		logger.info("sending request to FIXER_API");
-		HttpResponse response = client.execute(obtainRequest());
-		String responseEntity = EntityUtils.toString(response.getEntity());
-		return responseEntity;
-	}
-
-	private HttpGet obtainRequest() {
-		return new HttpGet(uri.getUriOfCurrencyApi());
-	}
 }

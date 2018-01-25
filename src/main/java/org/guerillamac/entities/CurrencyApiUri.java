@@ -1,5 +1,8 @@
 package org.guerillamac.entities;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 public interface CurrencyApiUri {
-	String getUriOfCurrencyApi();
+	URI getUriOfCurrencyApi() throws URISyntaxException;
 }
