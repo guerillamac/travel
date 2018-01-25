@@ -1,5 +1,7 @@
 package org.guerillamac.services;
 
+import org.guerillamac.data.NewsFeed;
+
 public interface NewsFeedService {
-	String getNewsFeed(String countryName);
+	NewsFeed getNewsFeed(String countryName);
 }

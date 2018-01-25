@@ -14,6 +14,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -30,11 +31,17 @@ import static org.junit.Assert.assertTrue;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class FixerTestApiTest {
+
 	@InjectLogger
 	private Logger logger;
 
-	private FixerCurrencyService valueFinder = new FixerCurrencyService();
-	
+	@Autowired
+	private FixerCurrencyService valueFinder;
+
+	@Before
+	public void setUp() throws Exception {
+
+	}
 
 	@Test
 	public void should_get_not_null_currency_table() throws Exception {
