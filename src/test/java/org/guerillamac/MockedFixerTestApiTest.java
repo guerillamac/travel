@@ -1,6 +1,7 @@
 package org.guerillamac;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.guerillamac.entities.CurrencyApiUri;
 import org.guerillamac.entities.CurrencyTable;
 import org.guerillamac.entities.FixerCurrencyService;
@@ -14,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.slf4j.Logger;
 
 import java.net.URI;
 import java.util.Optional;
@@ -27,10 +29,10 @@ public class MockedFixerTestApiTest {
 	CurrencyApiUri currencyApiUri;
 
 	@Mock
-	ObjectMapper mapper;
+	CurrencyClient client;
 
 	@Mock
-	CurrencyClient client;
+	Logger logger;
 
 	@InjectMocks
 	private FixerCurrencyService valueFinder;
@@ -44,8 +46,8 @@ public class MockedFixerTestApiTest {
 	@Test
 	public void should_return_empty_value_if_cant_parse() throws Exception {
 		Optional<CurrencyTable> values = valueFinder.findValues();
-//		when(currencyApiUri.getUriOfCurrencyApi()).then(any(URI.class));
-
+		when(currencyApiUri.getUriOfCurrencyApi()).thenReturn(any(URI.class));
+		when(client.executeGet(any(CurrencyApiUri.class))).thenReturn("STUB");
 		Assert.assertFalse(values.isPresent());
 	}
 

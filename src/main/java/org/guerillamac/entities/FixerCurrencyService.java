@@ -24,9 +24,6 @@ public class FixerCurrencyService implements ValueFinder {
 	private CurrencyApiUri uri;
 
 	@Autowired
-	private ObjectMapper objectMapper;
-
-	@Autowired
 	private CurrencyClient currencyClient;
 
 	@InjectLogger
@@ -47,11 +44,10 @@ public class FixerCurrencyService implements ValueFinder {
 		}
 	}
 
-
 	private Optional<CurrencyTable> parseJson(String responseEntity) throws IOException {
+		ObjectMapper objectMapper = new ObjectMapper();
 		ObjectNode node = objectMapper.readValue(responseEntity, ObjectNode.class);
 		logger.info("started parsing of Json");
-
 		return extractCurrencyTableFromJson(node);
 	}
 
