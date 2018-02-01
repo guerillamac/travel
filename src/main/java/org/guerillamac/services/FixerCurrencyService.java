@@ -1,15 +1,11 @@
-package org.guerillamac.entities;
+package org.guerillamac.services;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.util.EntityUtils;
 import org.guerillamac.InjectLogger;
 import org.guerillamac.clients.eurclient.ValueFinder;
-import org.guerillamac.services.CurrencyClient;
+import org.guerillamac.entities.*;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,7 +22,7 @@ public class FixerCurrencyService implements ValueFinder {
 	@Autowired
 	private CurrencyClient currencyClient;
 
-	@InjectLogger
+	@InjectLogger @SuppressWarnings("unused")
 	private Logger logger;
 
 	@Override
@@ -36,17 +32,17 @@ public class FixerCurrencyService implements ValueFinder {
 
 	private Optional<CurrencyTable> tryToExecute() {
 		try {
-			String entity = currencyClient.executeGet(uri);
-			return parseJson(entity);
+			String response = currencyClient.executeGet(uri);
+			return parseJson(response);
 		} catch (IOException e) {
 			logger.error("ERROR occurred during working with FIXER API");
 			throw new RuntimeException();
 		}
 	}
 
-	private Optional<CurrencyTable> parseJson(String responseEntity) throws IOException {
+	private Optional<CurrencyTable> parseJson(String response) throws IOException {
 		ObjectMapper objectMapper = new ObjectMapper();
-		ObjectNode node = objectMapper.readValue(responseEntity, ObjectNode.class);
+		ObjectNode node = objectMapper.readValue(response, ObjectNode.class);
 		logger.info("started parsing of Json");
 		return extractCurrencyTableFromJson(node);
 	}

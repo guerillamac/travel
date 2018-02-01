@@ -20,7 +20,7 @@ public class CurrencyClient {
 	@InjectLogger
 	Logger logger;
 
-	private HttpClient client = HttpClients.createDefault();
+	private final HttpClient client = HttpClients.createDefault();
 
 	public String executeGet(CurrencyApiUri uri) {
 		String json = "";
